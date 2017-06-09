@@ -2,6 +2,22 @@ var request = require( "request" ),
     cheerio = require( "cheerio" ),
     assert  = require( "assert" );
 
+function postSlack( message ) {
+  return new Promise( function( resolve, reject ) {
+    request( {
+      url: "https://hooks.slack.com/services/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",
+      headers: {
+        "content-type": "application/json"
+      },
+      data: {
+        "text": message
+      }
+    }, function() {
+      resolve();
+    } );
+  } );
+}
+
 describe( "psvr", function() {
   it( "should see amazon sells psvr", function( done ) {
     this.timeout( 200000 ); 
@@ -13,8 +29,11 @@ describe( "psvr", function() {
     }, function( error, response, body ) {
       var $ = cheerio.load( body ), result;
       result = $( "#product-alert-grid_feature_div > div > b:nth-child(1)" ).text();
-      assert.deepEqual( result, "※Amazon.co.jpが販売・発送する本商品の追加販売分は終了しました。" );
-      done();
+      if ( result === "※Amazon.co.jpが販売・発送する本商品の追加販売分は終了しました。a" ) {
+        postSlack( result ).then( done, done );
+      } else {
+        done();
+      }
     } );
   } );
 } );
