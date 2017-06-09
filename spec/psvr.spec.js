@@ -2,16 +2,19 @@ var request = require( "request" ),
     cheerio = require( "cheerio" ),
     assert  = require( "assert" );
 
+postSlack( "test" );
+
 function postSlack( message ) {
   return new Promise( function( resolve, reject ) {
     request( {
+      type: "POST",
       url: "https://hooks.slack.com/services/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",
       headers: {
         "content-type": "application/json"
       },
-      data: {
+      body: JSON.stringify( {
         "text": message
-      }
+      } )
     }, function() {
       resolve();
     } );
