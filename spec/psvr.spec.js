@@ -32,7 +32,7 @@ describe( "psvr", function() {
     }, function( error, response, body ) {
       var $ = cheerio.load( body ), result;
       result = $( "#product-alert-grid_feature_div > div > b:nth-child(1)" ).text();
-      if ( result !== "※Amazon.co.jpが販売・発送する本商品の追加販売分は終了しました。" ) {
+      if ( result !== "※Amazon.co.jpが販売・発送する本商品の追加販売分は終了しました?" ) {
         postSlack( result ).then( done, done );
       } else {
         done();
