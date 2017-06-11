@@ -15,6 +15,10 @@ function checkMessage( options ) {
       encoding: null
     }, function( error, response, body ) {
       var detectResult, decodedResult, $, result, iconv;
+
+      if ( error ) {
+        return reject( error );
+      }
       
       detectResult = jschardet.detect( body );
       iconv = new Iconv( detectResult.encoding, "UTF-8//TRANSLIT//IGNORE" );
@@ -45,6 +49,9 @@ function postSlack( message ) {
         "text": message
       } )
     }, function( error, result, body ) {
+      if ( error ) {
+        return reject( error );
+      }
       resolve();
     } );
   } );
@@ -93,7 +100,9 @@ describe( "psvr", function() {
     it ( "should see " + test.site + " sells psvr", function( done ) {
       this.timeout( 200000 ); 
       checkMessage( test )
-      .then( done, done );
+      .then( done, function( error  ) {
+        postSlack( "```js\n" + JSON.stringify( error ) + "\n```" );
+      } );
     } );
   } );
 } );
