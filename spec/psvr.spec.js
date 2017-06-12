@@ -28,7 +28,11 @@ function checkMessage( options ) {
       result = result.trim();
 
       if ( result !== options.expectMessage ) {
-        postSlack( options.site + ": " + result + "\n" + options.url ).then( resolve, reject );
+        postSlack( options.site + ": " + result + "\n" + options.url )
+        .then( function() {
+          return postSlack( "```" + decodedResult + "```" );
+        } )
+        .then( resolve, reject );
       } else {
         resolve();
       }
@@ -64,12 +68,12 @@ function using( tests, fn ) {
 }
 
 describe( "psvr", function() {
-  var tests = [ {
+  var tests = [ /*{
         site: "Amazon",
         url: "https://www.amazon.co.jp/%E3%82%BD%E3%83%8B%E3%83%BC-%E3%82%A4%E3%83%B3%E3%82%BF%E3%83%A9%E3%82%AF%E3%83%86%E3%82%A3%E3%83%96%E3%82%A8%E3%83%B3%E3%82%BF%E3%83%86%E3%82%A4%E3%83%B3%E3%83%A1%E3%83%B3%E3%83%88-SIEAgeRestriction-PlayStation-VR-Camera%E5%90%8C%E6%A2%B1%E7%89%88/dp/B01H03FQ44/ref=sr_1_1?ie=UTF8&qid=1497012667&sr=8-1&keywords=psvr",
         selector: "#product-alert-grid_feature_div > div > b:nth-child(1)",
         expectMessage: "※Amazon.co.jpが販売・発送する本商品の追加販売分は終了しました。"
-      }, {
+      },*/ {
         site: "ビックカメラ",
         url: "http://www.biccamera.com/bc/c/sale/special/psvr/order-GI8a.jsp",
         selector: "#order > div > div > p.vr_period",
@@ -100,8 +104,8 @@ describe( "psvr", function() {
     it ( "should see " + test.site + " sells psvr", function( done ) {
       this.timeout( 200000 ); 
       checkMessage( test )
-      .then( done, function( error  ) {
-        postSlack( "```js\n" + JSON.stringify( error ) + "\n```" );
+      .then( done, function( error ) {
+        postSlack( "```\n" + JSON.stringify( error, "", "  " ) + "\n```" );
       } );
     } );
   } );
