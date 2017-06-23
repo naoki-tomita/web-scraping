@@ -56,12 +56,12 @@ const using = ( tests, fn ) => {
 };
 
 describe( "psvr", () => {
-  const tests = [ /*{
+  const tests = [ /* {
         site: "Amazon",
         url: "https://www.amazon.co.jp/%E3%82%BD%E3%83%8B%E3%83%BC-%E3%82%A4%E3%83%B3%E3%82%BF%E3%83%A9%E3%82%AF%E3%83%86%E3%82%A3%E3%83%96%E3%82%A8%E3%83%B3%E3%82%BF%E3%83%86%E3%82%A4%E3%83%B3%E3%83%A1%E3%83%B3%E3%83%88-SIEAgeRestriction-PlayStation-VR-Camera%E5%90%8C%E6%A2%B1%E7%89%88/dp/B01H03FQ44/ref=sr_1_1?ie=UTF8&qid=1497012667&sr=8-1&keywords=psvr",
         selector: "#product-alert-grid_feature_div > div > b:nth-child(1)",
         expectMessage: "※Amazon.co.jpが販売・発送する本商品の追加販売分は終了しました。"
-      },*/ {
+      }, {
       site: "ビックカメラ",
       url: "http://www.biccamera.com/bc/c/sale/special/psvr/order-GI8a.jsp",
       selector: "#order > div > div > p.vr_period",
@@ -86,7 +86,7 @@ describe( "psvr", () => {
       url: "http://www.sony.jp/playstation/psvr/",
       selector: "body > div.s5-container > div.c5-row > div.c5-row__col2.c5-border--rightW > div > div > div > div > div > div > p",
       expectMessage: "予定販売数に達したため、現在販売を停止しています。次回販売は未定です。販売が決定した際は、本ページにてご案内いたします"
-    } ];
+    } */ ];
 
   using( tests, ( test ) => {
     it( `should see ${test.site} sells psvr`, async function () {
